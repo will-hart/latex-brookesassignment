@@ -61,6 +61,10 @@
 % maths
 \usepackage{amsmath}
 
+% plots
+\usepackage{pgfplots}
+\pgfplotsset{width=7cm,compat=1.5.1}
+
 % headers and footers
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -122,14 +126,33 @@
 }
 \makeatother
 
-% bibliography command
-\newcommand{\makebibliography}[2]{%
-	\ifx #2 \@empty \relax \else
-		\nocite{*}
-	\fi
-	\bibliographystyle{plain}
-	\bibliography{#1}
-}
+% bibliography command - takes 2 arguments
+%   - first argument is the file to use for bibliography
+%   - second argument takes any value, but if supplied will include all sources
+%     in the bibliography, even if they haven't been cited
+\makeatletter
+	\newcommand{\makebibliography}[2]{%
+		\ifx #2 \@empty \relax \else
+			\nocite{*}
+		\fi
+		\bibliographystyle{plain}
+		\bibliography{#1}
+	}
+\makeatother
+
+
+% a command for drawing graphs - takes 3 arguments
+%    - the first is the x-axis label (no $ signs required)
+%    - the second is the y-axis label (no $ signs required)
+%    - the third is the function to plot (no $ signs required)
+\makeatletter
+	\newcommand{\drawplot}[3]{%
+		\begin{tikzpicture}
+			\begin{axis}[xlabel=$#1$, ylabel={$#2$}]
+				\addplot {#3};
+			\end{axis}
+		\end{tikzpicture}
+	}
 \makeatother
 
 
