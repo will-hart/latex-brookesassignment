@@ -20,22 +20,21 @@
 		\maketitle
 		
 		% the text of the article
-		\section{Introduction}	
+		\section{Section 1}	
 			\blindtext
 								
 			\subsection{Sub 1}
 				\blindmathpaper
-				\blindenumerate[10]
-				\blindtext
+			
+				\begin{figure}[h]
+					\centering
+					% use the custom macro for drawing a pgfplot of a function
+					\drawplot{x}{f(x) = x^2 - x + 4}{x^2 - x + 4}
+					\label{fig:test}
+					\caption{Test}
+				\end{figure}
 				
-			\subsection{Sub 2}
 				\blindtext
-		
-		\section{Section 2}	
-			\blindtext
-								
-			\subsection{Sub 1}
-				\blindmathpaper
 				\blindenumerate[10]
 				\blindtext
 				
