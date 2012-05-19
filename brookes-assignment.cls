@@ -15,7 +15,8 @@
 % fields that user can set (in addition to title, author, etc)
 \makeatletter
 	\newcommand{\studentnumber}[1]{\def \@studentnumber{#1}}
-	\newcommand{\module}[1]{\def \@module {#1}}
+	\newcommand{\modulecode}[1]{\def \@modulecode{#1}}
+	\newcommand{\modulename}[1]{\def \@modulename{#1}}
 	\newcommand{\subtitle}[1]{\def \@subtitle {#1}}
 	\newcommand{\wordcount}[1]{\def \@wordcount {#1}}
 	\newcommand{\assignmentname}[1]{\def \@assignmentname {#1}}
@@ -24,7 +25,8 @@
 	
 	\studentnumber{}
 	\subtitle{}
-	\module{}
+	\modulecode{}
+	\modulename{}
 	\wordcount{}
 	\assignmentname{}
 	\executivesummary{}
@@ -38,7 +40,8 @@
 \usepackage[top=0.75in,bottom=0.75in,left=1in,right=1in]{geometry}
 
 % fonts
-\renewcommand{\familydefault}{cmss}
+\usepackage[default]{cantarell}
+\usepackage[T1]{fontenc}
 
 % alignment
 % (must be before indentation because raggedright clears parindent)
@@ -65,23 +68,35 @@
 \usepackage{pgfplots}
 \pgfplotsset{width=7cm,compat=1.5.1}
 
+% toolbox for if then elses
+\usepackage{etoolbox}
+
 % headers and footers
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 
-% redefine header
-\fancyhf{}
+% redefine headers
 \makeatletter
-	\newcommand{\customheader}{%
-		\ifx\@assignmentname\@empty\relax\else\@assignmentname{} --- \fi 
-		 \@studentname, \ifx\@studentnumber\@empty\relax\else\@studentnumber\fi 
+	\newcommand\headerleft{%
+		\ifx\@modulecode\@empty\relax\else\@modulecode{}\fi 
+	}%	
+	\newcommand\headercentre{%
+		\@studentname, \ifx\@studentnumber\@empty\relax\else\@studentnumber\fi
 	}%
-	\newcommand{\customfooter}{%
+	\newcommand\headerright{%
+		\ifx\@assignmentname\@empty\relax\else\@assignmentname{}\fi 
+	}%	
+	\newcommand{\footercentre}{%
 		\thepage
 	}%
 \makeatother
-\chead[\customheader]{\customheader}
-\cfoot[\customfooter]{\customfooter}
+
+% apply new header definitions
+\fancyhf{} % clear previous
+\lhead[\headerleft]{\headerleft}
+\chead[\headercentre]{\headercentre}
+\rhead[\headerright]{\headerright}
+\cfoot[\footercentre]{\footercentre}
 
 % title
 \makeatletter
@@ -94,7 +109,7 @@
 		\begin{flushleft}
 			\@studentname, \@studentnumber \\
 			\ifx \@module \@empty \relax \else
-				\emph{\@module} \\
+				\emph{\@modulecode} \@modulename \\
 			\fi
 			\ifx \@assignmentname \@empty \relax \else
 				\emph{\@assignmentname} \\
